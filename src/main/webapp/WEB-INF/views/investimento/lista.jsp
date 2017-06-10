@@ -28,12 +28,17 @@ ${sucesso}
 				<td>${investimento.prazo}</td>
 				<td>${investimento.valorMinimo }</td>
 				<td>
-					<form:form servletRelativeAction="/aplicar" method="post" commandName="contas">
-					<form:select path="contas" >
-						<form:options items="${contas}"/>
-						<form:errors path="contas" />
-					</form:select>
-					<input type="submit" name="aplicar" />
+					<form:form servletRelativeAction="/aplicar" method="post" commandName="aplicacaoForm">
+						<form:hidden path="investimento" value="${investimento}" />
+					
+						<form:select path="conta" >
+							<form:options items="${contas}"/>
+							<form:errors path="conta" />
+						</form:select>
+					
+						<form:input path="valor" id="valor" />
+						<form:errors path="valor" />
+						<input type="submit" name="aplicar" />
 					</form:form>
 				</td>
 			</tr>

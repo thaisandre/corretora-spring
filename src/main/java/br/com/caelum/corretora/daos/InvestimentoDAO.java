@@ -22,4 +22,8 @@ public class InvestimentoDAO {
 	public List<Investimento> lista() {
 		return manager.createQuery("select i from Investimento i", Investimento.class).getResultList();
 	}
+	
+	public Investimento buscaPor(Integer id) {
+		return manager.find(Investimento.class, id);
+	}
 }

@@ -25,4 +25,8 @@ public class ContaDAO {
 		return manager.createQuery("select c from Conta c where c.usuario = :usuario", Conta.class)
 				.setParameter("usuario", usuario).getResultList();
 	}
+
+	public Conta buscaPor(Integer id) {
+		return manager.find(Conta.class, id);
+	}
 }

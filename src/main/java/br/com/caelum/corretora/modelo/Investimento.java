@@ -130,6 +130,7 @@ public class Investimento {
 
 	@Override
 	public String toString() {
-		return "[" + this.getTipo() + ", " + this.getTaxaDeJuros() + ", " + this.getPrazo() + "]";
+		return this.getTipo() + " - taxa:" + this.getTaxaDeJuros() + "% - prazo:" + 
+				this.getPrazo() + "meses - valor mínimo:" + this.getValorMinimo();
 	}
 }

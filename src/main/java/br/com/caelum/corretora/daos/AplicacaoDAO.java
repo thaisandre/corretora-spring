@@ -40,4 +40,12 @@ public class AplicacaoDAO {
 		List<Aplicacao> aplicacoes = query.getResultList();
 		return aplicacoes;
 	}
+	
+	/**public List<Aplicacao> buscaPor(Usuario usuario) {
+		Query query = manager.createQuery("select * from Aplicacao a inner join Usuario u on a.conta.id = c.id and"
+				+ "u.login like :idUsuario ", Aplicacao.class).setParameter("idUsuario", usuario.getLogin());
+		List<Aplicacao> aplicacoes = query.getResultList();
+		return aplicacoes;
+	}**/
+	
 }

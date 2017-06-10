@@ -12,7 +12,12 @@ public class HomeController {
 	
 	@RequestMapping("/home")
 	public ModelAndView index(@AuthenticationPrincipal Usuario usuarioLogado) {		
-		ModelAndView modelAndView = new ModelAndView("/home/index");
+		ModelAndView modelAndView;
+		if(usuarioLogado.getLogin().equals("admin@corretora.com")) {
+			modelAndView = new ModelAndView("/home/index-admin");
+		} else {
+			modelAndView = new ModelAndView("/home/index");
+		}
 		modelAndView.addObject("usuarioLogado", usuarioLogado);
 		return modelAndView;
 	}

@@ -31,7 +31,7 @@ public class Conta {
 	private String titular;
 	
 	@Transient
-	private static Set<Long> numeros = new HashSet<Long>();
+	public static Set<Long> numeros = new HashSet<Long>();
 
 	public Conta(Usuario usuario, String titular, Long numero, BigDecimal saldo) {
 		validaUsuario(usuario);
@@ -140,7 +140,10 @@ public class Conta {
 	private boolean cadastra() {
 		return numeros.add(this.numero);
 	}
-
+	
+	public static Set<Long> getNumeros() {
+		return numeros;
+	}
 	@Override
 	public String toString() {
 		return numero.toString();

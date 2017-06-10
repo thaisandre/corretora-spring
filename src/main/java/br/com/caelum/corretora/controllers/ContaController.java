@@ -40,7 +40,7 @@ public class ContaController {
 		}
 		
 		Conta conta = contaForm.build(usuarioLogado);
-		System.out.println("cadastrando conta " + conta.getNumero());
+		//System.out.println("cadastrando conta " + conta.getNumero());
 		contaDAO.salva(conta);
 		redirectAttributes.addFlashAttribute("sucesso", "Conta cadastrada com sucesso");
 		return new ModelAndView("redirect:/conta");

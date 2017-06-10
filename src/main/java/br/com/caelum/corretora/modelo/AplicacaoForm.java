@@ -9,35 +9,31 @@ import javax.validation.constraints.NotNull;
 public class AplicacaoForm {
 	
 	@NotNull
-	private Conta conta;
+	private Integer contaId;
 	
 	@NotNull
-	private Investimento investimento;
+	private Integer investimentoId;
 	
 	@NotNull
 	@DecimalMin("0.0")
 	private BigDecimal valor;
 	
-	@NotNull
-	private LocalDate dataInicial;
-
-	
 	public AplicacaoForm() {};
 	
-	public Conta getConta() {
-		return conta;
+	public Integer getContaId() {
+		return contaId;
 	}
 
-	public void setConta(Conta conta) {
-		this.conta = conta;
+	public void setContaId(Integer contaId) {
+		this.contaId = contaId;
 	}
 
-	public Investimento getInvestimento() {
-		return investimento;
+	public Integer getInvestimentoId() {
+		return investimentoId;
 	}
 
-	public void setInvestimento(Investimento investimento) {
-		this.investimento = investimento;
+	public void setInvestimentoId(Integer investimentoId) {
+		this.investimentoId = investimentoId;
 	}
 
 	public BigDecimal getValor() {
@@ -47,17 +43,9 @@ public class AplicacaoForm {
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-
-	public LocalDate getDataInicial() {
-		return dataInicial;
-	}
-
-	public void setDataInicial(LocalDate dataInicial) {
-		this.dataInicial = dataInicial;
-	}
 	
-	public Aplicacao build(Conta conta, Investimento investimento) {
-		Aplicacao aplicacao = new Aplicacao(conta, investimento, dataInicial, valor);
+	public Aplicacao build(Conta conta, Investimento investimento, BigDecimal valor) {
+		Aplicacao aplicacao = new Aplicacao(conta, investimento, LocalDate.now(), valor);
 		return aplicacao;
 	}
 }
