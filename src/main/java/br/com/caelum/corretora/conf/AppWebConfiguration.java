@@ -7,17 +7,19 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import br.com.caelum.corretora.controllers.AplicacaoController;
 import br.com.caelum.corretora.controllers.ContaController;
 import br.com.caelum.corretora.controllers.HomeController;
 import br.com.caelum.corretora.controllers.InvestimentoController;
 import br.com.caelum.corretora.controllers.UsuarioController;
+import br.com.caelum.corretora.daos.AplicacaoDAO;
 import br.com.caelum.corretora.daos.ContaDAO;
 import br.com.caelum.corretora.daos.InvestimentoDAO;
 import br.com.caelum.corretora.daos.UsuarioDAO;
 
 @EnableWebMvc
 @ComponentScan(basePackageClasses={HomeController.class, ContaController.class, UsuarioController.class, InvestimentoController.class,
-		ContaDAO.class, UsuarioDAO.class, InvestimentoDAO.class})
+		ContaDAO.class, UsuarioDAO.class, InvestimentoDAO.class, AplicacaoController.class, AplicacaoDAO.class})
 public class AppWebConfiguration {
 	
 	@Bean

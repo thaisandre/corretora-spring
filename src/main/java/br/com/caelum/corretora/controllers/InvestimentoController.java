@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.caelum.corretora.daos.ContaDAO;
 import br.com.caelum.corretora.daos.InvestimentoDAO;
 import br.com.caelum.corretora.modelo.Investimento;
 import br.com.caelum.corretora.modelo.TipoDeInvestimento;
@@ -23,9 +22,6 @@ public class InvestimentoController {
 	
 	@Autowired
 	private InvestimentoDAO investimentoDAO;
-	
-	@Autowired
-	private ContaDAO contaDAO;
 	
 	@RequestMapping("/investimento/form")
 	public ModelAndView form(Investimento investimento) {
@@ -50,14 +46,10 @@ public class InvestimentoController {
 	@RequestMapping(value="/investimento", method=RequestMethod.GET)
 	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado) {
 		ModelAndView modelAndView = new ModelAndView("/investimento/lista");
-		modelAndView.addObject("contas", contaDAO.listaPor(usuarioLogado));
+	//	modelAndView.addObject("contas", contaDAO.listaPor(usuarioLogado));
 		modelAndView.addObject("investimentos", investimentoDAO.lista());
 		return modelAndView;
 	}
-	
-	
-	
-	
 	
 	/**public ModelAndView listaPor(@AuthenticationPrincipal Usuario usuarioLogado) {
 		ModelAndView modelAndView = new ModelAndView("/investimento/lista");

@@ -40,6 +40,15 @@ public class AplicacaoDAO {
 		List<Aplicacao> aplicacoes = query.getResultList();
 		return aplicacoes;
 	}
+
+	public void remove(Aplicacao aplicacao) {
+		manager.remove(aplicacao);
+		
+	}
+
+	public Aplicacao buscaPor(Integer id) {
+		return manager.find(Aplicacao.class, id);
+	}
 	
 	/**public List<Aplicacao> buscaPor(Usuario usuario) {
 		Query query = manager.createQuery("select * from Aplicacao a inner join Usuario u on a.conta.id = c.id and"

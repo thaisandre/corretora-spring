@@ -12,11 +12,7 @@ ${sucesso}
 	
 	<a href="usuario/form">cadastrar ususario</a><br />
 	<a href="usuario">listar usuarios</a><br />
-	<a href="conta/form">cadastrar nova conta</a><br />
-	<a href="conta">listar contas</a><br />
 	<a href="investimento/form">cadastrar investimentos</a><br />
 	<a href="investimento">listar investimentos</a><br />
-	<a href="aplicacao">listar aplicacoes</a><br />
-
 </body>
 </html>

@@ -98,7 +98,7 @@ public class Conta {
 
 	private boolean saca(BigDecimal valor) {
 		if(valor.compareTo(saldo) == 1) {
-			throw new IllegalArgumentException("saque inválido - valor não pode ser maior do que o saldo");
+			throw new IllegalArgumentException("saque inválido - valor não pode ser maior do que seu saldo em conta");
 		} else {
 			saldo.subtract(valor);
 			return true;

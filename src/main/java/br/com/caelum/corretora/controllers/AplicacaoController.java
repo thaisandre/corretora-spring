@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,20 +49,28 @@ public class AplicacaoController {
 	@RequestMapping(value = "/aplicar", method = RequestMethod.POST)
 	public ModelAndView salva(@AuthenticationPrincipal Usuario usuarioLogado, @Valid AplicacaoForm aplicacaoForm,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
 		if (bindingResult.hasErrors()) {
 			return form(usuarioLogado, aplicacaoForm);
 		}
 
 		Conta conta = contaDao.buscaPor(aplicacaoForm.getContaId());
+		System.out.println(conta);
+
 		Investimento investimento = investimentoDAO.buscaPor(aplicacaoForm.getInvestimentoId());
-		Aplicacao aplicacao = aplicacaoForm.build(conta, investimento, aplicacaoForm.getValor());
-		aplicacaoDAO.salva(aplicacao);
+		System.out.println(investimento);
 
-		redirectAttributes.addFlashAttribute("sucesso", "Aplicacao cadastrada com sucesso");
-		return new ModelAndView("redirect:/home");
+		try {
+			Aplicacao aplicacao = conta.investe(investimento, aplicacaoForm.getValor());
+			aplicacaoDAO.salva(aplicacao);
+			redirectAttributes.addFlashAttribute("message", " operação realizada com sucesso");
+		} catch (IllegalArgumentException e) {
+			redirectAttributes.addFlashAttribute("message", e.getMessage());
+		} finally {
+			return new ModelAndView("redirect:/aplicacao/form");
+		}
+		
 	}
-
+	
 	@RequestMapping(value = "/aplicacao", method = RequestMethod.GET)
 	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado) {
 		ModelAndView modelAndView = new ModelAndView("aplicacao/lista");
@@ -69,7 +78,7 @@ public class AplicacaoController {
 		List<Aplicacao> lista = new ArrayList<Aplicacao>();
 		List<Aplicacao> aplicacoes = aplicacaoDAO.lista();
 		List<Conta> contas = contaDao.listaPor(usuarioLogado);
-		
+
 		for (Conta c : contas) {
 			for (Aplicacao a : aplicacoes) {
 				if (c.getId() == a.getConta().getId()) {
@@ -79,5 +88,21 @@ public class AplicacaoController {
 		}
 		modelAndView.addObject("aplicacoes", lista);
 		return modelAndView;
+	}
+
+	@Transactional
+	@RequestMapping(value = "resgatar/{id}", method = RequestMethod.GET)
+	public ModelAndView resgata(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/aplicacao");
+		Aplicacao aplicacao = aplicacaoDAO.buscaPor(id);
+		System.out.println(aplicacao);
+		try {
+			aplicacao.resgata();
+			aplicacaoDAO.remove(aplicacao);
+		} catch (RuntimeException e) {
+			redirectAttributes.addFlashAttribute("message", e.getMessage());
+		} finally {
+			return modelAndView;
+		}
 	}
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,8 +25,10 @@ public class Aplicacao {
 	@OneToOne
 	@JoinColumn(name = "id_investimento")
 	private Investimento investimento;
-
+	
+	@Column
 	private LocalDate dataInicial;
+	
 	private BigDecimal valor;
 
 	public Aplicacao(Conta conta, Investimento investimento, LocalDate dataInicial, BigDecimal valor) {
@@ -76,21 +79,21 @@ public class Aplicacao {
 		return getDataInicial().until(LocalDate.now(), ChronoUnit.MONTHS);
 	}
 	
-	/**
+	
 	private BigDecimal getRendimentoBruto() {
-		return getValor() * (new BigDecimal(1).add(investimento.getRentabilidadeMensal())^(getIntervalo() - 1));
+		return getValor().multiply((new BigDecimal(1.0).add(investimento.getRentabilidadeMensal()).pow((int) (getIntervalo() - 1))));
 	}
 	
 	private BigDecimal getDesconto() {
-		return investimento.getTipo().calcula(this) * getRendimentoBruto();
+		return investimento.getTipo().calcula(this).multiply(getRendimentoBruto());
 	}
 
 	private BigDecimal getRendimentoLiquido() {
-		return getRendimentoBruto() - getDesconto();
+		return getRendimentoBruto().subtract(getDesconto());
 	}
 
 	public BigDecimal getTotalResgate() {
-		return getValor() + getRendimentoLiquido();
+		return getValor().add(getRendimentoLiquido());
 	}
 
 	public boolean resgata() {
@@ -98,7 +101,7 @@ public class Aplicacao {
 			conta.deposita(getTotalResgate());
 			return true;
 		} else {
-			throw new RuntimeException("operação inválida - não pode resgatar antes de completar 2 anos");
+			throw new RuntimeException("operação inválida - não pode resgatar antes de completar " + investimento.getPrazo() +  " meses");
 		}
-	}**/
+	}
 }

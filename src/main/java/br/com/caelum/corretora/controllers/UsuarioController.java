@@ -36,7 +36,7 @@ public class UsuarioController {
 	public String salva(Usuario usuario, RedirectAttributes redirectAttributes) {
 		usuarioDAO.salva(usuario);
 		redirectAttributes.addFlashAttribute("sucesso", "usario cadastrado com sucesso");
-		return "redirect:usuario";
+		return "redirect:/usuario";
 	}
 	
 	@RequestMapping(value="/usuario", method=RequestMethod.GET)

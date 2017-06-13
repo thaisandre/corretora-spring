@@ -1,4 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,6 +21,7 @@
 			<th>taxa(a.a)</th>
 			<th>prazo(em meses)</th>
 			<th>data inicial</th>
+			<th><span style="color:red">${message}</span></th>
 		</tr>
 		
 		<c:forEach items="${aplicacoes}" var="aplicacao" >
@@ -29,11 +32,16 @@
 				<td>${aplicacao.investimento.taxaDeJuros}</td>
 				<td>${aplicacao.investimento.prazo}</td>
 				<td>${aplicacao.dataInicial}</td>
-				<td><a href="/resgatar">resgatar</a></td>
+				<td>
+					<c:url value="resgatar/${aplicacao.id}" var="linkDetalhar" />
+					<a href="${linkDetalhar}">resgatar</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<br />
-	<a href="home" >voltar ao menu</a>
+	<form:form servletRelativeAction="/home">
+		<input type="submit" value="voltar ao menu" />
+	</form:form>
 </body>
 </html>

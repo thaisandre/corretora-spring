@@ -10,8 +10,6 @@
 <title>aplicar</title>
 </head>
 <body>
-	${sucesso}<br />
-	<br />
 	<p>Fazer nova aplicacao</p><br />
 		<form:form servletRelativeAction="/aplicar" method="post"
 			commandName="aplicacaoForm">
@@ -26,9 +24,12 @@
 				<form:errors path="valor" />
 				
 				<br /><br />
-				<input type="submit" value="aplicar" />
+				<input type="submit" value="aplicar" /><span style="color:red" >${message}</span><br />
 		</form:form>
 	<br />
-	<a href="home">voltar ao menu</a>
+	
+	<form:form servletRelativeAction="/home">
+		<input type="submit" value="voltar ao menu" />
+	</form:form>
 </body>
 </html>
