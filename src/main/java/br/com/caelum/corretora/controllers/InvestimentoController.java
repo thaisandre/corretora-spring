@@ -36,8 +36,6 @@ public class InvestimentoController {
 		if(bindingResult.hasErrors()) {
 			return form(investimento);
 		}
-		
-		System.out.println("cadastrando investimento " + investimento.getTipo());
 		investimentoDAO.salva(investimento);
 		redirectAttributes.addFlashAttribute("sucesso", "Investimento cadastrado com sucesso");
 		return new ModelAndView("redirect:/investimento");
@@ -46,7 +44,6 @@ public class InvestimentoController {
 	@RequestMapping(value="/investimento", method=RequestMethod.GET)
 	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado) {
 		ModelAndView modelAndView = new ModelAndView("/investimento/lista");
-	//	modelAndView.addObject("contas", contaDAO.listaPor(usuarioLogado));
 		modelAndView.addObject("investimentos", investimentoDAO.lista());
 		return modelAndView;
 	}

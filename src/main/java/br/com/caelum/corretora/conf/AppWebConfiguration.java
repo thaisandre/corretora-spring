@@ -15,11 +15,12 @@ import br.com.caelum.corretora.controllers.UsuarioController;
 import br.com.caelum.corretora.daos.AplicacaoDAO;
 import br.com.caelum.corretora.daos.ContaDAO;
 import br.com.caelum.corretora.daos.InvestimentoDAO;
+import br.com.caelum.corretora.daos.RoleDAO;
 import br.com.caelum.corretora.daos.UsuarioDAO;
 
 @EnableWebMvc
 @ComponentScan(basePackageClasses={HomeController.class, ContaController.class, UsuarioController.class, InvestimentoController.class,
-		ContaDAO.class, UsuarioDAO.class, InvestimentoDAO.class, AplicacaoController.class, AplicacaoDAO.class})
+		ContaDAO.class, UsuarioDAO.class, InvestimentoDAO.class, AplicacaoController.class, AplicacaoDAO.class, RoleDAO.class})
 public class AppWebConfiguration {
 	
 	@Bean

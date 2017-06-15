@@ -1,7 +1,6 @@
 package br.com.caelum.corretora.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,13 +19,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/usuario").hasRole("ADMIN")
-		.antMatchers("/usuario/lista").hasRole("ADMIN")
-		.antMatchers("/usuario/form").hasRole("ADMIN")
-		.antMatchers("/investimento").hasRole("ADMIN")
-		.antMatchers("/investimento/lista").hasRole("ADMIN")
+		.antMatchers("/usuario**").hasRole("ADMIN")
+		.antMatchers("/investimento**").hasRole("ADMIN")
+		.antMatchers("/conta/form").hasRole("CLIENTE")
 		.antMatchers("/conta").hasRole("CLIENTE")
-		.antMatchers("/aplicacao").hasRole("CLIENTE")
+		.antMatchers("/aplicacao**").hasRole("CLIENTE")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login")

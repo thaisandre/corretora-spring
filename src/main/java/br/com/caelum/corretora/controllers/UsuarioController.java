@@ -1,40 +1,55 @@
 package br.com.caelum.corretora.controllers;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.caelum.corretora.daos.RoleDAO;
 import br.com.caelum.corretora.daos.UsuarioDAO;
 import br.com.caelum.corretora.modelo.Usuario;
-import br.com.caelum.corretora.validators.UsuarioValidator;
+import br.com.caelum.corretora.modelo.UsuarioForm;
 
 @Controller
 public class UsuarioController {
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.addValidators(new UsuarioValidator());
-	}
+	//@InitBinder
+	//public void initBinder(WebDataBinder binder) {
+	//	binder.addValidators(new UsuarioValidator());
+	//s}
 	
 	@Autowired
 	private UsuarioDAO usuarioDAO;
 	
+	@Autowired
+	private RoleDAO roleDAO;
+	
 	@RequestMapping("/usuario/form")
-	public String form() {
-		return "usuario/form";
+	public ModelAndView form(UsuarioForm usuarioForm) {
+		ModelAndView modelAndView = new ModelAndView("/usuario/form");
+		modelAndView.addObject("usuarioForm", usuarioForm);
+		return modelAndView;
 	}
 	
 	@Transactional
 	@RequestMapping(value="/usuario", method=RequestMethod.POST)
-	public String salva(Usuario usuario, RedirectAttributes redirectAttributes) {
+	public String salva(@Valid UsuarioForm usuarioForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if(bindingResult.hasErrors()) {
+			return "/usuario/form";
+		}
+		
+		Usuario usuario = usuarioForm.build();
+		for(String r : usuarioForm.getRoles()) {
+			usuario.getRoles().add(roleDAO.buscaPor(r));
+		}
 		usuarioDAO.salva(usuario);
+		
 		redirectAttributes.addFlashAttribute("sucesso", "usario cadastrado com sucesso");
 		return "redirect:/usuario";
 	}

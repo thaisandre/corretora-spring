@@ -97,17 +97,18 @@ public class Conta {
 	}
 
 	private boolean saca(BigDecimal valor) {
-		if(valor.compareTo(saldo) == 1) {
+		if(valor.doubleValue() > saldo.doubleValue()) {
 			throw new IllegalArgumentException("saque inválido - valor não pode ser maior do que seu saldo em conta");
 		} else {
-			saldo.subtract(valor);
+			saldo = saldo.subtract(valor);
 			return true;
 		}
 	}
 
 	public boolean deposita(BigDecimal valor) {
-		if (valor.compareTo(new BigDecimal(0.0)) == 1){
-			saldo.add(valor);
+		if (valor.doubleValue() >= 0.0){
+			//System.out.println(valor.compareTo(new BigDecimal(0.0)) == 1);
+			saldo = saldo.add(valor);
 			return true;
 		} else {
 			throw new IllegalArgumentException("depósito inválido - valor não pode ser negativo");

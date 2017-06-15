@@ -38,7 +38,11 @@ public class AplicacaoController {
 	private InvestimentoDAO investimentoDAO;
 
 	@RequestMapping("/aplicacao/form")
-	public ModelAndView form(@AuthenticationPrincipal Usuario usuarioLogado, AplicacaoForm aplicacaoForm) {
+	public ModelAndView form(@AuthenticationPrincipal Usuario usuarioLogado, AplicacaoForm aplicacaoForm, RedirectAttributes redirectAttributes) {
+		if(contaDao.listaPor(usuarioLogado).isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "você ainda não possui uma conta");
+			return new ModelAndView("redirect:/home");
+		}
 		ModelAndView modelAndView = new ModelAndView("/aplicacao/form");
 		modelAndView.addObject("investimentos", investimentoDAO.lista());
 		modelAndView.addObject("contas", contaDao.listaPor(usuarioLogado));
@@ -50,7 +54,7 @@ public class AplicacaoController {
 	public ModelAndView salva(@AuthenticationPrincipal Usuario usuarioLogado, @Valid AplicacaoForm aplicacaoForm,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return form(usuarioLogado, aplicacaoForm);
+			return form(usuarioLogado, aplicacaoForm, redirectAttributes);
 		}
 
 		Conta conta = contaDao.buscaPor(aplicacaoForm.getContaId());
@@ -72,7 +76,12 @@ public class AplicacaoController {
 	}
 	
 	@RequestMapping(value = "/aplicacao", method = RequestMethod.GET)
-	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado) {
+	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+		if(contaDao.listaPor(usuarioLogado).isEmpty() || aplicacaoDAO.buscaPor(usuarioLogado).isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "você ainda não possui investimentos");
+			return new ModelAndView("redirect:/home");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView("aplicacao/lista");
 
 		List<Aplicacao> lista = new ArrayList<Aplicacao>();
@@ -95,7 +104,6 @@ public class AplicacaoController {
 	public ModelAndView resgata(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/aplicacao");
 		Aplicacao aplicacao = aplicacaoDAO.buscaPor(id);
-		System.out.println(aplicacao);
 		try {
 			aplicacao.resgata();
 			aplicacaoDAO.remove(aplicacao);

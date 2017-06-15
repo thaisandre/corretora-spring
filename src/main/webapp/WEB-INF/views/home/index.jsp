@@ -16,7 +16,7 @@
 	<a href="aplicacao">seus investimentos</a><br />
 	<a href="aplicacao/form">fazer novo investimento</a><br />
 	<br />
-	${sucesso}<br /><br />
+	${message}<br /><br />
 	<br />
 	<form:form servletRelativeAction="/logout">
 		<input type="submit" value="logout" />

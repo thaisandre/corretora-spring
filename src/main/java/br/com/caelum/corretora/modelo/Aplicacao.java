@@ -25,10 +25,10 @@ public class Aplicacao {
 	@OneToOne
 	@JoinColumn(name = "id_investimento")
 	private Investimento investimento;
-	
+
 	@Column
 	private LocalDate dataInicial;
-	
+
 	private BigDecimal valor;
 
 	public Aplicacao(Conta conta, Investimento investimento, LocalDate dataInicial, BigDecimal valor) {
@@ -36,20 +36,21 @@ public class Aplicacao {
 			throw new IllegalArgumentException("conta não pode ser nula");
 		if (investimento == null)
 			throw new IllegalArgumentException("investimento não pode ser nulo");
-		if(dataInicial == null)
+		if (dataInicial == null)
 			throw new IllegalArgumentException("data não pode ser nula");
-		if(valor == null)
+		if (valor == null)
 			throw new IllegalArgumentException("valor não pode ser nulo");
-		if(valor.doubleValue() <investimento.getValorMinimo().doubleValue())
+		if (valor.doubleValue() < investimento.getValorMinimo().doubleValue())
 			throw new IllegalArgumentException("valor mínimo deve ser " + investimento.getValorMinimo());
 		this.conta = conta;
 		this.investimento = investimento;
 		this.dataInicial = dataInicial;
 		this.valor = valor;
 	}
-	
-	public Aplicacao(){}
-	
+
+	public Aplicacao() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -66,7 +67,6 @@ public class Aplicacao {
 		return investimento;
 	}
 
-
 	public LocalDate getDataInicial() {
 		return dataInicial;
 	}
@@ -74,16 +74,20 @@ public class Aplicacao {
 	public BigDecimal getValor() {
 		return valor;
 	}
-	
+
 	public Long getIntervalo() {
 		return getDataInicial().until(LocalDate.now(), ChronoUnit.MONTHS);
 	}
-	
-	
+
 	private BigDecimal getRendimentoBruto() {
-		return getValor().multiply((new BigDecimal(1.0).add(investimento.getRentabilidadeMensal()).pow((int) (getIntervalo() - 1))));
+		if (getIntervalo() == 0) {
+			return new BigDecimal(0.0);
+		} else {
+			return getValor().multiply(
+					(new BigDecimal(1.0).add(investimento.getRentabilidadeMensal()).pow((int) (getIntervalo() - 1))));
+		}
 	}
-	
+
 	private BigDecimal getDesconto() {
 		return investimento.getTipo().calcula(this).multiply(getRendimentoBruto());
 	}
@@ -93,7 +97,11 @@ public class Aplicacao {
 	}
 
 	public BigDecimal getTotalResgate() {
-		return getValor().add(getRendimentoLiquido());
+		if (getIntervalo() == 0) {
+			return getValor();
+		} else {
+			return getValor().add(getRendimentoLiquido());
+		}
 	}
 
 	public boolean resgata() {
@@ -101,7 +109,8 @@ public class Aplicacao {
 			conta.deposita(getTotalResgate());
 			return true;
 		} else {
-			throw new RuntimeException("operação inválida - não pode resgatar antes de completar " + investimento.getPrazo() +  " meses");
+			throw new RuntimeException(
+					"operação inválida - não pode resgatar antes de completar " + investimento.getPrazo() + " meses");
 		}
 	}
 }

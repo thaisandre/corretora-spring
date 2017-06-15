@@ -31,6 +31,8 @@ ${sucesso}
 		</c:forEach>
 	</table>
 	<br />
-	<a href="home" >voltar ao menu</a>
+	<form:form servletRelativeAction="/home">
+		<input type="submit" value="voltar ao menu" />
+	</form:form>
 </body>
 </html>

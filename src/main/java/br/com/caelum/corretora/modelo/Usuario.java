@@ -28,6 +28,7 @@ public class Usuario implements UserDetails{
 			this.login = login;
 			this.senha = senha;
 	}
+	
 	private void valida(String parametro) {
 		if(parametro == null || parametro.isEmpty()) {
 			throw new IllegalArgumentException("campo " + parametro + " deve ser preenchido");
@@ -50,6 +51,10 @@ public class Usuario implements UserDetails{
 	
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public List<Role> getRoles() {
+		return roles;
 	}
 	
 	@Override

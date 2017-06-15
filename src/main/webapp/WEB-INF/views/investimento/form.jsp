@@ -44,8 +44,12 @@
 			<form:errors path="valorMinimo" />
 		</div>
 		<div>
-			<input type="submit" name="cadastrar" />
+			<input type="submit" value="cadastrar" />
 		</div>
+	</form:form>
+	<br />
+	<form:form servletRelativeAction="/home">
+		<input type="submit" value="voltar ao menu" />
 	</form:form>
 </body>
 </html>

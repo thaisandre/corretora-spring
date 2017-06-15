@@ -47,7 +47,11 @@ public class ContaController {
 	}
 	
 	@RequestMapping(value="/conta", method=RequestMethod.GET)
-	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado) {
+	public ModelAndView lista(@AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+		if(contaDAO.listaPor(usuarioLogado).isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "você ainda não possui uma conta");
+			return new ModelAndView("redirect:/home");
+		}
 		ModelAndView modelAndView = new ModelAndView("/conta/lista");
 		modelAndView.addObject("contas", contaDAO.listaPor(usuarioLogado));
 		return modelAndView;
