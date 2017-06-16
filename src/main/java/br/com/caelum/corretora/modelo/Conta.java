@@ -63,16 +63,8 @@ public class Conta {
 		return usuario;
 	}
 	
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
 	public String getTitular() {
 		return titular;
-	}
-	
-	public void setTitular(String titular) {
-		this.titular = titular;
 	}
 	
 	public Long getNumero() {
@@ -90,10 +82,6 @@ public class Conta {
 	
 	public BigDecimal getSaldo() {
 		return this.saldo;
-	}
-	
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
 	}
 
 	private boolean saca(BigDecimal valor) {

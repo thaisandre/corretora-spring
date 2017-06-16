@@ -41,11 +41,7 @@ public class ContaForm {
 	
 	public Conta build(Usuario usuarioLogado) {
 		System.out.println("build conta");
-		Conta conta = new Conta();
-		conta.setUsuario(usuarioLogado);
-		conta.setTitular(titular);
-		conta.setNumero(numero);
-		conta.setSaldo(saldo);
+		Conta conta = new Conta(usuarioLogado, titular, numero, saldo);
 		return conta;
 	}
 }
