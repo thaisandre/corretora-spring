@@ -56,8 +56,9 @@ public class AplicacaoDAO {
 	}
 	
 	public List<Aplicacao> buscaPor(Usuario usuario) {
-		Query query = manager.createQuery("select * from Aplicacao a inner join Usuario u inner join Conta c on a.conta.id = c.id and"
-				+ "u.login like :idUsuario ", Aplicacao.class).setParameter("idUsuario", usuario.getLogin());
+		Query query = manager.createQuery("select a from Aplicacao a join a.conta c join c.usuario u where u.login "
+				+ "like :idUsuario",
+				Aplicacao.class).setParameter("idUsuario", usuario.getLogin());
 		List<Aplicacao> aplicacoes = query.getResultList();
 		return aplicacoes;
 	}

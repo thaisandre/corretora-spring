@@ -1,8 +1,5 @@
 package br.com.caelum.corretora.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -83,19 +80,7 @@ public class AplicacaoController {
 		}
 		
 		ModelAndView modelAndView = new ModelAndView("aplicacao/lista");
-
-		List<Aplicacao> lista = new ArrayList<Aplicacao>();
-		List<Aplicacao> aplicacoes = aplicacaoDAO.lista();
-		List<Conta> contas = contaDao.listaPor(usuarioLogado);
-
-		for (Conta c : contas) {
-			for (Aplicacao a : aplicacoes) {
-				if (c.getId() == a.getConta().getId()) {
-					lista.add(a);
-				}
-			}
-		}
-		modelAndView.addObject("aplicacoes", lista);
+		modelAndView.addObject("aplicacoes", aplicacaoDAO.buscaPor(usuarioLogado));
 		return modelAndView;
 	}
 
