@@ -37,7 +37,7 @@ public class AplicacaoDAO {
 	
 	public List<Aplicacao> buscaPor(Conta conta) {
 		Query query = manager.createQuery("select a from aplicacao a where a.conta.id "
-				+ "like :idDaConta").setParameter("idDaConta", conta.getId());
+				+ "= :idDaConta").setParameter("idDaConta", conta.getId());
 		List<Aplicacao> aplicacoes = query.getResultList();
 		return aplicacoes;
 	}
@@ -56,9 +56,8 @@ public class AplicacaoDAO {
 	}
 	
 	public List<Aplicacao> buscaPor(Usuario usuario) {
-		Query query = manager.createQuery("select a from Aplicacao a join a.conta c join c.usuario u where u.login "
-				+ "like :idUsuario",
-				Aplicacao.class).setParameter("idUsuario", usuario.getLogin());
+		Query query = manager.createQuery("select a from Aplicacao a where a.conta.usuario.login = :login",
+				Aplicacao.class).setParameter("login", usuario.getLogin());
 		List<Aplicacao> aplicacoes = query.getResultList();
 		return aplicacoes;
 	}
