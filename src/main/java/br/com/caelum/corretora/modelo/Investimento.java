@@ -124,8 +124,7 @@ public class Investimento {
 	}
 
 	public BigDecimal getRentabilidadeMensal() {
-		//return Math.pow(10, Math.log10(getTaxaDeJuros().add(new BigDecimal(1))) / 12) - 1;
-		return new BigDecimal(0.8);
+		return new BigDecimal((Math.pow(10, Math.log10(getTaxaDeJuros().doubleValue() + new BigDecimal(1.0).doubleValue()) /12) -1));
 	}
 
 	@Override
